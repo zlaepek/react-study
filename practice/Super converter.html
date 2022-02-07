@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <div id="root"></div>
+    </body>
+    <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <script type="text/babel">
+        
+        function MinutesToHours() {
+            const [amount, setAmounts] = React.useState(0);
+            const [inverted, setInverted] = React.useState(false);
+            const onChange = (event) => {
+                setAmounts(event.target.value);
+            };
+
+            const onInvert = () => {
+                setInverted((current) => !current);
+                reset();
+            };
+            const reset = () => setAmounts(0);
+            return (
+                <div>
+                    <div>
+                        <label Htmlfor="minutes">Minutes</label>
+                        <input 
+                            value={inverted ? amount * 60 : amount} 
+                            id="minutes" 
+                            placeholder="Minutes" 
+                            types="number" 
+                            onChange={onChange}
+                            disabled={inverted}/>
+                    </div>
+                    <div>
+                        <label Htmlfor="hours">Hour</label>
+                        <input 
+                            value={inverted ? amount : Math.round(amount/60)} 
+                            id="hours" 
+                            placeholder="Hours" 
+                            types="number"
+                            onChange={onChange}
+                            disabled={!inverted}/>
+                    </div>
+                    <button onClick={reset}>Reset</button>
+                    <button onClick={onInvert}>Invert</button>
+                    
+                </div>
+            );
+        };
+        function KmToMiles(){
+            const [amount, setAmount] = React.useState(0);
+            const [invert, setInvert] = React.useState(false);
+
+            const onChange = (event) => {
+                setAmount(event.target.value);
+            };
+
+            const onInvert = () => {
+                setInvert((current) => !current);
+                reset();
+            };
+
+            const reset = () => setAmount(0);
+
+            return (
+                <div>
+                    <div>
+                        <label Htmlfor="km">Km</label>
+                        <input 
+                            value={invert ? amount / 0.621371 : amount} 
+                            id="km" 
+                            placeholder="Km" 
+                            types="number" 
+                            onChange={onChange}
+                            disabled={invert}/>
+                    </div>
+                    <div>
+                        <label Htmlfor="miles">Miles</label>
+                        <input
+                            value={invert ? amount : amount * 0.621371}
+                            id="miles"
+                            placeholder="Miles"
+                            types="number"
+                            onChange={onChange}
+                            disable={!invert}/>
+                    </div>
+                        <button onClick={reset}>Reset</button>
+                        <button onClick={onInvert}>Invert</button>
+
+                </div>
+            )
+        }
+        function App() {
+            const [index, setIndex] = React.useState(0);
+
+            const onSelect = (event) => {
+                setIndex(event.target.value);
+            }
+            return (
+                <div>
+                    <h1>Super Converter</h1>
+                    <select value={index} onChange={onSelect}>
+                        <option value = "xx">Select your units</option>
+                        <option value="0">Minutes & Hours</option>
+                        <option value="1">Km & Miles</option>
+                    </select>
+                    {index === "xx" ? "Please select your unit" : null}
+                    {index === "0" ? <MinutesToHours /> : null}
+                    {index === "1" ? <KmToMiles /> : null}
+                </div>
+            );
+        };
+
+        const root = document.getElementById("root");
+        ReactDOM.render(<App />, root);
+    </script>
+</html>
